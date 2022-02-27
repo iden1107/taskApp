@@ -7,7 +7,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - sample',
-    title: 'sample',
+    title: 'シンプルタスクアプリ',
     htmlAttrs: {
       lang: 'en'
     },
@@ -42,7 +42,12 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/axios",
+    'nuxt-client-init-module'
   ],
+  axios: {
+    baseURL: 'http://localhost:8000/',
+    credentials: true,
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

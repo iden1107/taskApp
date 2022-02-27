@@ -1,11 +1,9 @@
 <template>
-  <v-app dark>
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      clipped
       fixed
-      app
     >
       <v-list>
         <v-list-item
@@ -25,93 +23,72 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
+      clipped-left
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none"/>
+      <v-toolbar-title to="/">
+        <v-toolbar-items>
+          <nuxt-link to="/" class="text-decoration-none black--text font-weight-bold text-md-h5">シンプルタスクアプリ</nuxt-link>
+        </v-toolbar-items>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <LoginToolbar v-if="hoge" />
+      <LogoutToolbar v-else :auth-user="authUser" />
+
     </v-app-bar>
     <v-main>
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer
-      v-model="rightDrawer"
-      :right="right"
-      temporary
-      fixed
-    >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-footer
-      :absolute="!fixed"
-      app
-    >
+
+    <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
 
+<style>
+
+
+</style>
+
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'DefaultLayout',
   data () {
     return {
-      clipped: false,
       drawer: false,
-      fixed: false,
+      toolbar:false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-home',
+          title: 'ホーム',
           to: '/'
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
+          icon: 'mdi-login',
+          title: 'ログイン',
+          to: '/admin/login'
+        },
+        {
+          icon: 'mdi-account',
+          title: '新規会員登録',
+          to: '/admin/register'
+        },
       ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'タイトル'
+    }
+  },
+  computed:{
+    ...mapGetters(
+      'auth',['authUser']
+    ),
+    hoge(){
+      return this.authUser ? false : true
     }
   }
 }
