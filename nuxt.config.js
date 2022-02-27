@@ -46,7 +46,7 @@ export default {
   ],
   axios: {
     // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://calm-earth-25205.herokuapp.com/',
+    baseURL: 'https://thawing-earth-77347.herokuapp.com/',
     credentials: true,
   },
 
