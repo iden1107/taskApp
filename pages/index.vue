@@ -4,6 +4,7 @@
       <v-card class="logo py-4 d-flex justify-center">
         <NuxtLogo />
         <VuetifyLogo />
+        <p>{{$store.state.auth.authUser}}</p>
       </v-card>
     </v-col>
   </v-row>
