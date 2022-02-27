@@ -17,7 +17,7 @@ export const actions = {
 
     await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {
       const response = await this.$axios
-        .$post('login', { email, password })
+        .$post('api/login', { email, password })
         .catch((err) => {
           console.log(err)
         })
@@ -26,7 +26,7 @@ export const actions = {
   },
   async logout({ commit }) {
     await this.$axios
-      .$post('logout')
+      .$post('api/logout')
       .then((res) => {
         console.log(res.message)
       })
