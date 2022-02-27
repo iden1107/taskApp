@@ -45,7 +45,8 @@ export default {
     'nuxt-client-init-module'
   ],
   axios: {
-    baseURL: 'http://localhost:8000/',
+    // baseURL: 'http://localhost:8000/',
+    baseURL: 'https://calm-earth-25205.herokuapp.com/',
     credentials: true,
   },
 
