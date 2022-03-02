@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+import ja from 'vuetify/es5/locale/ja.js'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -9,7 +10,7 @@ export default {
     titleTemplate: '%s - sample',
     title: 'シンプルタスクアプリ',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ja'
     },
     meta: [
       { charset: 'utf-8' },
@@ -45,8 +46,8 @@ export default {
     'nuxt-client-init-module'
   ],
   axios: {
-    // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://thawing-earth-77347.herokuapp.com/',
+    baseURL: 'http://localhost:8000/',
+    // baseURL: 'https://thawing-earth-77347.herokuapp.com/',
     credentials: true,
   },
 
@@ -66,7 +67,11 @@ export default {
           success: colors.green.accent3
         }
       }
-    }
+    },
+    lang: {
+      locales: { ja },
+      current: 'ja',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

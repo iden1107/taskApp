@@ -27,9 +27,6 @@ export const actions = {
   async logout({ commit }) {
     await this.$axios
       .$post('api/logout')
-      .then((res) => {
-        console.log(res.message)
-      })
       .catch((err) => {
         console.log(err)
       })
