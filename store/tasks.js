@@ -10,6 +10,7 @@ export const getters = {
 
 export const mutations = {
   setTasksByTag(state,res) {
+    console.log(res.tags)
     state.tags = res.tags
     // タグ別に分類する関数
     function groupBy(objectArray, property) {
