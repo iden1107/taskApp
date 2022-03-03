@@ -46,8 +46,8 @@ export default {
     'nuxt-client-init-module'
   ],
   axios: {
-    // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://thawing-earth-77347.herokuapp.com/',
+    baseURL: 'http://localhost:8000/',
+    // baseURL: 'https://thawing-earth-77347.herokuapp.com/',
     credentials: true,
   },
 

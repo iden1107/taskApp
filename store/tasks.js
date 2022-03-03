@@ -9,7 +9,6 @@ export const getters = {
 }
 
 export const mutations = {
-
   setTasksByTag(state,res) {
     state.tags = res.tags
     // タグ別に分類する関数
@@ -24,9 +23,12 @@ export const mutations = {
       }, {})
     }
     // 全てのtasksを上記の関数で分類してstateに値を設定する
-    const result = groupBy(res.tasks, 'tag_id')
+    const result = groupBy(res.tasks, 'tags_title')
     state.tasksByTag = result
   },
+  setTags(state, res){
+    state.tags = res
+  }
 }
 
 export const actions = {
@@ -38,16 +40,12 @@ export const actions = {
       })
     commit('setTasksByTag', response)
   },
-  // async register({ commit }, { name, email, password }) {
-  //   await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {
-  //     await this.$axios
-  //       .$post('api/register', { name, email, password })
-  //       .then((res) => {
-  //         console.log(res)
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  //   })
-  // },
+  async createTagAction({ commit }, formData) {
+    const response = await this.$axios
+      .$post('api/tag/create',formData)
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('setTags', response)
+  },
 }
