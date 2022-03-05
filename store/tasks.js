@@ -38,6 +38,7 @@ export const actions = {
       .catch((err) => {
         console.log(err)
       })
+      console.log(response)
     commit('setTasksByTag', response)
   },
   async createTagAction({ commit }, formData) {
