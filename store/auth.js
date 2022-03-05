@@ -14,7 +14,6 @@ export const mutations = {
 
 export const actions = {
   async login({ commit }, { email, password }) {
-
     await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {
       const response = await this.$axios
         .$post('api/login', { email, password })
@@ -36,9 +35,6 @@ export const actions = {
     await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {
       await this.$axios
         .$post('api/register', { name, email, password })
-        .then((res) => {
-          console.log(res)
-        })
         .catch((err) => {
           console.log(err)
         })

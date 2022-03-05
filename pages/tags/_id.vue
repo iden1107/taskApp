@@ -22,7 +22,6 @@
               label="メモ"
             ></v-textarea>
             <v-menu
-        v-model="menu2"
         :close-on-content-click="false"
         :nudge-right="40"
         transition="scale-transition"
@@ -177,6 +176,7 @@ export default {
   },
   async created(){
     await this.getTasksByTag(this.$route.params.id)
+
   }
 }
 
