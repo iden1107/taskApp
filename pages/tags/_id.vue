@@ -2,59 +2,9 @@
 <template>
   <v-row justify="center">
 
-    <!-- モーダル -->
-    <v-dialog
-      v-model="dialog"
-      width="800"
-    >
-      <v-card>
-        <v-card-title class="grey lighten-2">{{newTask.tag_id}}</v-card-title>
-        <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="newTask.title"
-              :counter="10"
-              label="タイトル"
-              required
-            ></v-text-field>
-            <v-textarea
-              v-model="newTask.memo"
-              label="メモ"
-            ></v-textarea>
-            <v-menu
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-text-field
-            v-model="newTask.deadline_date"
-            label="期日"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker
-          v-model="newTask.deadline_date"
-          @input="menu2 = false"
-        ></v-date-picker>
-      </v-menu>
-          </v-form>
-        </v-card-text>
-
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false">
-            追加
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!-- モーダルコンポーネント -->
+    <CreateTaskDialog ref="createTaskDialog" :tags="tags"/>
+    <EditTaskDialog ref="editTaskDialog"/>
 
     <v-col cols="12" md="4" >
       <v-card class="logo pa-4 justify-center" style="position:sticky; top: 76px;">
@@ -85,33 +35,49 @@
       </v-card>
     </v-col>
 
+    <!--  -->
     <v-col cols="12"  md="8">
       <v-card class="pa-4">
         <v-text-field
-          v-model="search"
+          v-model="searchWord"
           append-icon="mdi-magnify"
           label="検索"
           single-line
           hide-details
         ></v-text-field>
-        <div v-for="(task,key) in tasksByTag" :key="task.id">
-          <div class="d-flex">
-            <v-card-title class="font-weight-bold">{{key}}</v-card-title>
-            <v-spacer></v-spacer>
-            <v-btn fab x-small class="mt-5">
-              <v-icon @click="openDialog(task[0].tags_id)">mdi-plus</v-icon>
-            </v-btn>
-          </div>
-          <v-data-table
-            :headers="headers"
-            :items="task"
-            :search="search"
-            hide-default-footer
-          ></v-data-table>
-          <v-divider></v-divider>
+        <div class="d-flex">
+          <v-card-title class="font-weight-bold">{{tag}}</v-card-title>
+          <v-spacer></v-spacer>
+          <v-btn fab x-small class="mt-5">
+            <v-icon @click="openCreateDialog()">mdi-plus</v-icon>
+          </v-btn>
         </div>
+        <v-simple-table dense>
+          <thead>
+            <tr>
+              <th class="text-left"></th>
+              <th class="text-left">タイトル</th>
+              <th class="text-left">期日</th>
+              <th class="text-left"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="task in filterTasks" :key="task.id" style="cursor: pointer">
+              <td><v-checkbox :input-value="task.unfinished" color="gray lighten-3" @change="toggle(task)"></v-checkbox></td>
+              <td  @click="openEditDialog(task)" :class="judgeUnfinished(task)">{{ task.title }}</td>
+              <td  @click="openEditDialog(task)" :class="judgeUnfinished(task)">{{ task.deadline_date }}</td>
+              <td >
+                <v-btn text x-small >
+                  <v-icon color="grey lighten-1" @click="taskDelete(task)">mdi-delete</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+        </v-simple-table>
+        <v-divider></v-divider>
       </v-card>
     </v-col>
+
 
   </v-row>
 </template>
@@ -119,6 +85,12 @@
 <style scoped>
 .active{
   background-color: #DDDDDD;
+}
+.finished {
+  color:#bbbbbb;
+}
+.expired{
+  color:#F44336;
 }
 </style>
 
@@ -129,32 +101,41 @@ export default {
   data () {
     return {
       addTagButton :false,
-      dialog:false,
-      newTask:{title:'',memo:'',tag_id:'',deadline_date:null,},
       addTagField: {
         title:'',
       },
-      search: '',
-      headers: [
-        {
-          text: '状態',
-          align: 'start',
-          sortable: false,
-          value: 'status',
-        },
-        { text: 'タイトル', value: 'title' },
-        { text: '期日', value: 'deadline_date' },
-      ],
-      items: [],
+      searchWord: '',
     }
   },
   computed:{
-    ...mapGetters('tasks',['tags','tasksByTag']),
-    ...mapGetters('auth',['authUser'])
-
+    ...mapGetters('tasks',['tag','tags','tasksByTag']),
+    ...mapGetters('auth',['authUser']),
+    taskTitle(){
+      if(this.$route.params.id == 'all'){
+        return 'すべて'
+      }else{
+        return this.tag
+      }
+    },
+      // 検索の絞り込み
+    filterTasks(){
+      let tasks = this.$store.state.tasks.tasksByTag
+      if(this.searchWord == ""){
+        return tasks
+      }else{
+        var filterTasks = []
+        for (var i in tasks) {
+          var filterTask = tasks[i];
+          if (filterTask.title.indexOf(this.searchWord) > -1) {
+            filterTasks.push(filterTask)
+          }
+        }
+        return filterTasks
+      }
+    }
   },
   methods:{
-    ...mapActions('tasks',['getAllTasks','getTasksByTag','createTagAction']),
+    ...mapActions('tasks',['getAllTasks','getTasksByTag','createTagAction','toggleUnfinished','taskDeleteAction']),
     async selectTag(tag_id){
       this.active = tag_id
       this.$router.push({ path: `/tags/${tag_id}` })
@@ -168,16 +149,36 @@ export default {
         this.addTagButton = false
       }
     },
-    openDialog(arg){
-      this.dialog = true
-      this.newTask.tag_id = arg
-      console.log(this.newTask)
-    }
+    openCreateDialog(){
+      this.$refs.createTaskDialog.openDialog()
+    },
+    openEditDialog(arg){
+      this.$refs.editTaskDialog.openDialog(arg)
+    },
+    toggle(arg){
+      const formData = {id:arg.id,unfinished:!arg.unfinished,path:this.$route.params.id}
+      this.toggleUnfinished(formData)
+    },
+    taskDelete(arg){
+      arg['path'] = this.$route.params.id
+      this.taskDeleteAction(arg)
+    },
+    judgeUnfinished(arg){
+      const today = new Date()
+      today.setHours(9,0,0)
+      const date = new Date(arg.deadline_date);
+      if(arg.unfinished){
+        return 'finished'
+      }else if(!arg.unfinished && date <= today){
+        return 'expired'
+      }else{
+        return null
+      }
+    },
   },
   async created(){
     await this.getTasksByTag(this.$route.params.id)
-
-  }
+  },
 }
 
 </script>
