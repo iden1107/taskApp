@@ -34,7 +34,7 @@
         </v-toolbar-items>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <LoginToolbar v-if="hoge" />
+      <LoginToolbar v-if="existUser" />
       <LogoutToolbar v-else :auth-user="authUser" />
 
     </v-app-bar>
@@ -63,23 +63,6 @@ export default {
     return {
       drawer: false,
       toolbar:false,
-      items: [
-        {
-          icon: 'mdi-home',
-          title: 'ホーム',
-          to: '/'
-        },
-        {
-          icon: 'mdi-login',
-          title: 'ログイン',
-          to: '/admin/login'
-        },
-        {
-          icon: 'mdi-account',
-          title: '新規会員登録',
-          to: '/admin/register'
-        },
-      ],
       title: 'タイトル'
     }
   },
@@ -87,8 +70,47 @@ export default {
     ...mapGetters(
       'auth',['authUser']
     ),
-    hoge(){
+    existUser(){
       return this.authUser ? false : true
+    },
+    items(){
+      if(this.authUser){
+        return [
+          {
+            icon: 'mdi-home',
+            title: 'ホーム',
+            to: '/'
+          },
+          {
+            icon: 'mdi-format-list-checks',
+            title: 'タスク一覧',
+            to: '/tags/all'
+          },
+          {
+            icon: 'mdi-chart-line',
+            title: 'タスクグラフ',
+            to: '/chart'
+          },
+        ]
+      }else{
+        return [
+          {
+            icon: 'mdi-home',
+            title: 'ホーム',
+            to: '/'
+          },
+          {
+            icon: 'mdi-login',
+            title: 'ログイン',
+            to: '/admin/login'
+          },
+          {
+            icon: 'mdi-account',
+            title: '新規会員登録',
+            to: '/admin/register'
+          },
+        ]
+      }
     }
   }
 }

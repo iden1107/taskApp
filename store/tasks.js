@@ -1,15 +1,23 @@
+import moment from 'moment'
+
 export const state = () => ({
   tag:null,
   tags:null,
   tasksByTag:null,
+  tasksByDay:null,
   unfinishedTask:0,
+  barWidth:null,
+  slideWidth:null,
 })
 
 export const getters = {
   tag:(state) => state.tag,
   tags:(state) => state.tags,
   tasksByTag: (state) => state.tasksByTag,
+  tasksByDay: (state) => state.tasksByDay,
   unfinishedTask: (state) => state.unfinishedTask,
+  barWidth: (state) => state.barWidth,
+  slideWidth: (state) => state.slideWidth,
 }
 
 export const mutations = {
@@ -30,7 +38,22 @@ export const mutations = {
   },
   search(state, res){
     state.filterTask = res
-  }
+  },
+  setTasksByDay(state, res) {
+    // 月初から本日までの日別タスク量オブジェクトを作成(初期値はどの日も0で一旦設定)
+    const thisMonthDays = moment().endOf('month').format("D")
+    const today = moment().format("D")
+    let calendar = {}
+    for (let number = 1; number <= thisMonthDays; number++) {
+      calendar[number] = 0
+    }
+    // そのオブジェクトに完了した日付と完了したタスク量("unfinished = true"のカウント数)を上書き
+    state.tasksByDay = Object.assign(calendar, res.tasks);
+
+    // グラフの横幅を日数*50pxで設定
+    state.barWidth = (thisMonthDays * 50).toString() + 'px'
+    state.slideWidth = (Number(today) + 1 ) * 50
+  },
 }
 
 
@@ -148,6 +171,15 @@ export const actions = {
         console.log(err)
       })
     commit('countUnfinished', resCount)
+  },
+
+  async getTasksByDay({ commit }, ) {
+    const res = await this.$axios
+      .$get('api/chart/tasks')
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('setTasksByDay', res)
   },
 
 }

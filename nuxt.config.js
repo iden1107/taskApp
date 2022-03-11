@@ -38,16 +38,20 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    '@nuxtjs/moment'
   ],
 
+  moment: {
+    locales: ['ja']
+  },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     "@nuxtjs/axios",
     'nuxt-client-init-module'
   ],
   axios: {
-    // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://thawing-earth-77347.herokuapp.com/',
+    baseURL: 'http://localhost:8000/',
+    // baseURL: 'https://thawing-earth-77347.herokuapp.com/',
     credentials: true,
   },
 
