@@ -1,12 +1,20 @@
 <template>
   <v-row >
+
+    <v-tabs color="#999999"  class="d-sm-none d-md-block mb-4">
+      <v-tab nuxt to="/tags/all">タスク一覧</v-tab>
+      <v-tab nuxt to="/chart">タスクグラフ</v-tab>
+    </v-tabs>
+
     <v-col cols="12" md="6">
       <v-card >
-        <v-card-title>タスク</v-card-title>
+        <v-card-title>今月の完了タスク数
+          
+        </v-card-title>
         <v-card-text>
-          <div id="chartContainer">
+          <div id="barChartContainer">
             <div :style="{width:barWidth}">
-              <LineChart/>
+              <BarChart/>
             </div>
           </div>
         </v-card-text>
@@ -14,16 +22,24 @@
     </v-col>
     <v-col cols="12" md="6">
       <v-card >
-        <v-card-title>タスク</v-card-title>
+        <v-card-title>今月のタグ別割合</v-card-title>
+        <v-card-text>
+          <PieChart/>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
 
 <style >
-#chartContainer{
+#barChartContainer{
   width: 100%;
   overflow: scroll;
+}
+#pie-chart{
+  max-height: 400px;
+  max-width: 400px;
+  margin: auto;
 }
 
 </style>
@@ -37,15 +53,11 @@ export default {
   computed:{
     ...mapGetters('tasks',['barWidth','slideWidth']),
   },
-  methods:{
-    ...mapActions('tasks',['getTasksByDay']),
-  },
   async mounted(){
     // 描画時に今日の棒グラフが右端になるように親要素から引き算してy軸に動かす量を決める
     // その分だけ親要素をy軸にスクロールさせる
-    await this.getTasksByDay()
     const y =  this.slideWidth - document.querySelector(".v-card__text").clientWidth
-    document.getElementById("chartContainer").scrollTo( y,0 )
+    document.getElementById("barChartContainer").scrollTo( y,0 )
   },
 }
 </script>

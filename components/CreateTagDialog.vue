@@ -4,7 +4,7 @@
     width="800"
   >
     <v-card>
-      <v-card-title class="grey lighten-2">タスク編集</v-card-title>
+      <v-card-title class="grey lighten-2">新規タグ</v-card-title>
       <v-card-text>
         <v-form>
           <v-select
@@ -12,16 +12,16 @@
             item-value="id"
             :items="tags"
             label="タグ"
-            v-model="editTask.tag_id"
+            v-model="newTask.tag_id"
           ></v-select>
           <v-text-field
-            v-model="editTask.title"
+            v-model="newTask.title"
             :counter="10"
             label="タイトル"
             required
           ></v-text-field>
           <v-textarea
-            v-model="editTask.memo"
+            v-model="newTask.memo"
             label="メモ"
           ></v-textarea>
           <v-menu
@@ -31,21 +31,21 @@
             offset-y
             min-width="auto"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="editTask.deadline_date"
-                label="期日"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="editTask.deadline_date"
-              @input="menu2 = false"
-            ></v-date-picker>
-          </v-menu>
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field
+          v-model="newTask.deadline_date"
+          label="期日"
+          prepend-icon="mdi-calendar"
+          readonly
+          v-bind="attrs"
+          v-on="on"
+        ></v-text-field>
+      </template>
+      <v-date-picker
+        v-model="newTask.deadline_date"
+        @input="menu2 = false"
+      ></v-date-picker>
+    </v-menu>
         </v-form>
       </v-card-text>
       <v-divider></v-divider>
@@ -54,8 +54,8 @@
         <v-btn tile @click="cancel">
           キャンセル
         </v-btn>
-        <v-btn tile @click="updateTask(editTask); cancel();">
-          更新
+        <v-btn tile @click="addTask(newTask); cancel();">
+          追加
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -70,21 +70,33 @@ export default {
     return {
       dialog:false,
       tag:'',
-      editTask:{id:'',title:'',memo:'',tag_id:'',deadline_date:null},
+      newTask:{title:'',memo:'',tag_id:'',deadline_date:null,path:this.$route.params.id},
+      items:['Vue.js', 'React', 'Angular', 'Buzz'],
     }
   },
   computed:{
     ...mapGetters('tasks',['tags','tagsTitle','tasksByTag']),
   },
   methods:{
-    ...mapActions('tasks',['updateTask']),
+    ...mapActions('tasks',['addTask']),
     openDialog(arg){
       this.dialog = true
-      this.editTask = {id:arg.id,title:arg.title,memo:arg.memo,tag_id:arg.tag_id,deadline_date:arg.deadline_date,path:this.$route.params.id}
+      if(this.$route.params.id !== 'all'){
+        this.newTask.tag_id = Number(this.$route.params.id)
+      }
     },
     cancel(){
+      this.newTask = {title:'',memo:'',tag_id:'',deadline_date:null,path:this.$route.params.id}
       this.dialog = false
     }
   },
+  watch:{
+    // モーダルが開閉を監視し閉じられた値をリセットする
+    dialog(newVal) {
+      if(!newVal){
+        this.newTask = {title:'',memo:'',tag_id:'',deadline_date:null,}
+      }
+    }
+  }
 }
 </script>

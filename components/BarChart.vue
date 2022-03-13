@@ -11,7 +11,7 @@ export default {
             labels: [],
             datasets: [
                 {
-                label: ['3月'],
+                label: ['今月'],
                 backgroundColor: '#bbbbbb',
                 data: []
                 }
@@ -50,10 +50,10 @@ export default {
     ...mapGetters('tasks',['tag','tags','tasksByTag','tasksByDay']),
   },
   methods:{
-    ...mapActions('tasks',['getTasksByTag','createTagAction','toggleUnfinished','taskDeleteAction','getTasksByDay']),
+    ...mapActions('tasks',['createTagAction','toggleUnfinished','taskDeleteAction','getBarChart']),
   },
   async created () {
-    await this.getTasksByDay()
+    await this.getBarChart()
     this.chartdata.labels = Object.keys(this.tasksByDay)
     this.chartdata.datasets[0].data = Object.values(this.tasksByDay)
     this.renderChart(this.chartdata, this.options);

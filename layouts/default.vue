@@ -30,7 +30,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none"/>
       <v-toolbar-title to="/">
         <v-toolbar-items>
-          <nuxt-link to="/" class="text-decoration-none black--text font-weight-bold text-md-h5">シンプルタスクアプリ</nuxt-link>
+          <nuxt-link to="/" class="text-decoration-none black--text font-weight-bold text-md-h5">タスクアプリ</nuxt-link>
         </v-toolbar-items>
       </v-toolbar-title>
       <v-spacer></v-spacer>

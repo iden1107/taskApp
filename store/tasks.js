@@ -8,6 +8,7 @@ export const state = () => ({
   unfinishedTask:0,
   barWidth:null,
   slideWidth:null,
+  pieChartData:null,
 })
 
 export const getters = {
@@ -18,14 +19,15 @@ export const getters = {
   unfinishedTask: (state) => state.unfinishedTask,
   barWidth: (state) => state.barWidth,
   slideWidth: (state) => state.slideWidth,
+  pieChartData: (state) => state.pieChartData,
 }
 
 export const mutations = {
   setTasksByTag(state,res) {
     if (!res.tag.length){
-      state.tag = 'すべて'
+      state.tag = [{title:'すべて',color_label:null}]
     }else{
-      state.tag = res.tag[0].title
+      state.tag = res.tag
     }
     state.tags = res.tags
     state.tasksByTag = res.tasks
@@ -39,7 +41,7 @@ export const mutations = {
   search(state, res){
     state.filterTask = res
   },
-  setTasksByDay(state, res) {
+  setBarChart(state, res) {
     // 月初から本日までの日別タスク量オブジェクトを作成(初期値はどの日も0で一旦設定)
     const thisMonthDays = moment().endOf('month').format("D")
     const today = moment().format("D")
@@ -49,20 +51,22 @@ export const mutations = {
     }
     // そのオブジェクトに完了した日付と完了したタスク量("unfinished = true"のカウント数)を上書き
     state.tasksByDay = Object.assign(calendar, res.tasks);
-
     // グラフの横幅を日数*50pxで設定
     state.barWidth = (thisMonthDays * 50).toString() + 'px'
     state.slideWidth = (Number(today) + 1 ) * 50
   },
-}
 
+  setPieChart(state,res){
+    state.pieChartData = res
+  }
+}
 
 export const actions = {
   async getTasksByTag({ commit },tag_id) {
     const res = await this.$axios
-      .$get('api/tags/' + tag_id)
-      .catch((err) => {
-        console.log(err)
+    .$get('api/tags/' + tag_id)
+    .catch((err) => {
+      console.log(err)
     })
     commit('setTasksByTag', res)
     // 未終了のカウント
@@ -173,13 +177,24 @@ export const actions = {
     commit('countUnfinished', resCount)
   },
 
-  async getTasksByDay({ commit }, ) {
+
+  
+  async getBarChart({ commit }, ) {
     const res = await this.$axios
-      .$get('api/chart/tasks')
+      .$get('api/chart/bar')
       .catch((err) => {
         console.log(err)
       })
-    commit('setTasksByDay', res)
+    commit('setBarChart', res)
+  },
+
+  async getPieChart({ commit }, ) {
+    const res = await this.$axios
+      .$get('api/chart/pie')
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('setPieChart', res)
   },
 
 }
