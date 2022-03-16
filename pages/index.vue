@@ -30,27 +30,27 @@
         <v-row justify="center">
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-html-5.svg')" width="100px" class="mx-auto"></v-img>
-            <p>html</p>
+            <p>html<br></p>
           </v-col>
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-css3.svg')" width="100px" class="mx-auto"></v-img>
-            <p>css</p>
+            <p>css<br></p>
           </v-col>
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-javascript.svg')" width="100px" class="mx-auto"></v-img>
-            <p>javascript</p>
+            <p>javascript<br></p>
           </v-col>
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-vue-js.svg')" width="100px" class="mx-auto"></v-img>
-            <p>Vue</p>
+            <p>Vue<br>v2.6.14</p>
           </v-col>
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-nuxt-js-a-free-and-open-source-web-application-framework-96.png')" width="100px" class="mx-auto"></v-img>
-            <p>Nuxt</p>
+            <p>Nuxt<br>v2.15.8</p>
           </v-col>
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-vuetify.svg')" width="100px" class="mx-auto"></v-img>
-            <p>Vuetify</p>
+            <p>Vuetify<br>v1.12.3</p>
           </v-col>
         </v-row>
         <h3 class="pt-3">バックエンド</h3>
@@ -58,11 +58,11 @@
           <v-spacer></v-spacer>
           <v-col  cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-php-ロゴ.svg')" width="100px" class="mx-auto"></v-img>
-            <p>php</p>
+            <p>php<br>v8.0</p>
           </v-col>
           <v-col  cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-laravel-is-a-free,-open-source-php-web-framework.-96.png')" width="100px" class="mx-auto"></v-img>
-            <p>Laravel</p>
+            <p>Laravel<br>v9.2</p>
           </v-col>
           <v-spacer></v-spacer>
         </v-row>
@@ -70,7 +70,7 @@
         <v-row justify="center">
           <v-col cols="6" sm="4">
             <v-img :src="require('@/assets/icons8-mysql-ロゴ.svg')" width="100px" class="mx-auto"></v-img>
-            <p>MySQL</p>
+            <p>MySQL<br></p>
           </v-col>
         </v-row>
       </v-container>
@@ -126,9 +126,6 @@ h2{
 }
 .header-container {
   height: 100%;
-}
-section{
-
 }
 </style>
 <script>

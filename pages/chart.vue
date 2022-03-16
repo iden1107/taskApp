@@ -29,7 +29,7 @@
         </v-card-text>
       </v-card>
     </v-col>
-    
+
   </v-row>
 </v-container>
 </template>
@@ -52,6 +52,7 @@ import moment from 'moment'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
+  middleware: 'authenticated',
   name: 'chart',
   computed:{
     ...mapGetters('tasks',['barWidth','slideWidth']),

@@ -172,6 +172,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
+  middleware: 'authenticated',
   name: "tags_id",
   data() {
     return {
