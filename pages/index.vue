@@ -20,6 +20,10 @@
         <p>画像は無料のデザインツール<a href="https://www.design-ac.net/">「デザインAC」</a>より</p>
         <p>SVGロゴはフリーアイコン素材<a href="https://icons8.jp/">「icon8」</a>より</p>
         <p>アイコンは<a href="https://materialdesignicons.com/">「Material Design Icons」</a>より使用しました</p>
+        <br>
+        <p>ソースコードはGitHubで公開してます</p>
+        <p><a href="https://github.com/iden1107/taskApp">フロントエンド</a></p>
+        <p><a href="https://github.com/iden1107/taskAppBackend">バックエンド</a></p>
       </v-container>
     </section>
 
@@ -83,7 +87,7 @@
           <v-col cols="12" md="6">
             <h3 class="my-3">カラーラベリングと通知</h3>
             <ul class="text-left">
-              <li>タグ別でカラーリングすることでタスクの分類を分かりやすく</li>
+              <li>タグ別でカラーリングすることでタスクの分類を分かりやすくしました</li>
               <li>また期限の過ぎたタスクをアイコンで通知する機能も追加しました</li>
             </ul>
             <v-img :src="require('@/assets/2197397_s.jpg')" class="mx-auto"></v-img>
