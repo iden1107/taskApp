@@ -26,6 +26,3 @@ export default {
   props: ["authuser"],
 };
 </script>
-
-<style>
-</style>

@@ -51,7 +51,7 @@ export default {
   ],
   axios: {
     // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://thawing-earth-77347.herokuapp.com/',
+    baseURL: 'https://backend.hajime-kamino.com/',
     credentials: true,
   },
 
