@@ -29,6 +29,7 @@
       clipped-left
       fixed
       app
+      class="pa-0"
     >
       <v-container class="d-flex">
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none"/>
@@ -55,7 +56,11 @@
   </v-app>
 </template>
 
-<style>
+<style scoped>
+.container{
+  padding: 0;
+  height: 100%;
+}
 
 </style>
 

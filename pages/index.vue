@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- ヘッダー -->
     <header>
       <div class="tentativeImage">
         <v-container
@@ -13,6 +14,7 @@
       </div>
     </header>
 
+    <!-- 概要 -->
     <section class="about">
       <v-container class="text-center">
         <h2>このサイトについて</h2>
@@ -27,6 +29,7 @@
       </v-container>
     </section>
 
+    <!-- 仕様言語 -->
     <section class="technology text-center">
       <v-container>
         <h2 class="text-center">使用言語</h2>
@@ -80,6 +83,7 @@
       </v-container>
     </section>
 
+    <!-- 特徴 -->
     <section class="feature">
       <v-container class="text-center">
         <h2>特徴</h2>
@@ -105,6 +109,7 @@
     </section>
   </div>
 </template>
+
 <style scoped>
 header {
   background-position: center;
@@ -116,7 +121,6 @@ h2{
   display: inline-block;
   padding: 0 32px;
   border-bottom: 4px solid #BBB;
-
 }
 .tentativeImage {
   /* 背景画像の上にrgbaを置いて背景画像のみを透過させる */
@@ -132,6 +136,7 @@ h2{
   height: 100%;
 }
 </style>
+
 <script>
 export default {
   name: "IndexPage",

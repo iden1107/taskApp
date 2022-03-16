@@ -3,7 +3,7 @@
 <v-container>
   <v-row justify="center">
     <!-- メニューバー -->
-    <v-tabs color="#999999" class="d-sm-none d-md-block mb-4">
+    <v-tabs color="#999999" class="hidden-sm-and-down my-4">
       <v-tab nuxt to="/tags/all">タスク一覧</v-tab>
       <v-tab nuxt to="/chart">タスクグラフ</v-tab>
     </v-tabs>
