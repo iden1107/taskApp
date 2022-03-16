@@ -1,4 +1,5 @@
 <template>
+<v-container>
   <v-row >
 
     <v-tabs color="#999999"  class="d-sm-none d-md-block mb-4">
@@ -9,7 +10,6 @@
     <v-col cols="12" md="6">
       <v-card >
         <v-card-title>今月の完了タスク数
-          
         </v-card-title>
         <v-card-text>
           <div id="barChartContainer">
@@ -20,6 +20,7 @@
         </v-card-text>
       </v-card>
     </v-col>
+
     <v-col cols="12" md="6">
       <v-card >
         <v-card-title>今月のタグ別割合</v-card-title>
@@ -28,7 +29,9 @@
         </v-card-text>
       </v-card>
     </v-col>
+    
   </v-row>
+</v-container>
 </template>
 
 <style >

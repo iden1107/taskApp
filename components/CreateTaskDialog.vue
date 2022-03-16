@@ -71,7 +71,6 @@ export default {
       dialog:false,
       tag:'',
       newTask:{title:'',memo:'',tag_id:'',deadline_date:null,path:this.$route.params.id},
-      items:['Vue.js', 'React', 'Angular', 'Buzz'],
     }
   },
   computed:{

@@ -4,48 +4,24 @@
     width="800"
   >
     <v-card>
-      <v-card-title class="grey lighten-2">タスク編集</v-card-title>
+      <v-card-title class="grey lighten-2">タグ編集</v-card-title>
       <v-card-text>
         <v-form>
-          <v-select
-            item-text="title"
-            item-value="id"
-            :items="tags"
-            label="タグ"
-            v-model="editTask.tag_id"
-          ></v-select>
           <v-text-field
-            v-model="editTask.title"
+            v-model="editTag.title"
             :counter="10"
-            label="タイトル"
+            label="タグタイトル"
             required
           ></v-text-field>
-          <v-textarea
-            v-model="editTask.memo"
-            label="メモ"
-          ></v-textarea>
-          <v-menu
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="editTask.deadline_date"
-                label="期日"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="editTask.deadline_date"
-              @input="menu2 = false"
-            ></v-date-picker>
-          </v-menu>
+          <h4 class="grey--text ">カラーラベル</h4>
+            <v-btn
+              v-for="color in colorLabel"
+              :key="color" :color="color"
+              fab
+              :outlined="(editTag.colorLabel !== color)"
+              class="mx-2 mt-1"
+              @click="selectColor(color)"
+            ></v-btn>
         </v-form>
       </v-card-text>
       <v-divider></v-divider>
@@ -54,7 +30,7 @@
         <v-btn tile @click="cancel">
           キャンセル
         </v-btn>
-        <v-btn tile @click="updateTask(editTask); cancel();">
+        <v-btn tile @click="updateTagAction(editTag); cancel();">
           更新
         </v-btn>
       </v-card-actions>
@@ -70,17 +46,18 @@ export default {
     return {
       dialog:false,
       tag:'',
-      editTask:{id:'',title:'',memo:'',tag_id:'',deadline_date:null},
+      editTag:{id:'',title:'',colorLabel:''},
+      colorLabel:['#EF9A9A','#FFCC80','#FFF59D','#C5E1A5','#81D4FA','#9FA8DA','#CE93D8',]
     }
   },
-  computed:{
-    ...mapGetters('tasks',['tags','tagsTitle','tasksByTag']),
-  },
   methods:{
-    ...mapActions('tasks',['updateTask']),
+    ...mapActions('tasks',['updateTagAction']),
     openDialog(arg){
       this.dialog = true
-      this.editTask = {id:arg.id,title:arg.title,memo:arg.memo,tag_id:arg.tag_id,deadline_date:arg.deadline_date,path:this.$route.params.id}
+      this.editTag = {id:arg.id,title:arg.title,colorLabel:arg.color_label,path:this.$route.params.id}
+    },
+    selectColor(arg){
+      this.editTag.colorLabel = arg
     },
     cancel(){
       this.dialog = false

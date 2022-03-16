@@ -1,5 +1,5 @@
 <template>
-<div>
+<v-container>
   <v-card  class="mx-auto pt-4" max-width="344">
     <v-card-title class="text-center my-4 mx-auto">ログイン</v-card-title>
     <v-card-text>
@@ -20,7 +20,7 @@
       <p>・password</p>
     </v-card-text>
   </v-card>
-  </div>
+</v-container>
 </template>
 
 <script>

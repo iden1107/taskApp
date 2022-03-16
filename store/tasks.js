@@ -42,7 +42,7 @@ export const mutations = {
     state.filterTask = res
   },
   setBarChart(state, res) {
-    // 月初から本日までの日別タスク量オブジェクトを作成(初期値はどの日も0で一旦設定)
+    // 月初から月末までの日別タスク量オブジェクトを作成(初期値はどの日も0で一旦設定)
     const thisMonthDays = moment().endOf('month').format("D")
     const today = moment().format("D")
     let calendar = {}
@@ -51,7 +51,7 @@ export const mutations = {
     }
     // そのオブジェクトに完了した日付と完了したタスク量("unfinished = true"のカウント数)を上書き
     state.tasksByDay = Object.assign(calendar, res.tasks);
-    // グラフの横幅を日数*50pxで設定
+    // グラフの横幅を日数*50pxで設定,描画時に本日が右端になるようにスライドする量を設定
     state.barWidth = (thisMonthDays * 50).toString() + 'px'
     state.slideWidth = (Number(today) + 1 ) * 50
   },
@@ -62,22 +62,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async getTasksByTag({ commit },tag_id) {
-    const res = await this.$axios
-    .$get('api/tags/' + tag_id)
-    .catch((err) => {
-      console.log(err)
-    })
-    commit('setTasksByTag', res)
-    // 未終了のカウント
-    const resCount = await this.$axios
-      .$get('api/task/countUnfinished')
-      .catch((err) => {
-        console.log(err)
-      })
-    commit('countUnfinished', resCount)
-  },
 
+// タグ関連
   async createTagAction({ commit }, formData) {
     const newTag = await this.$axios
       .$post('api/tag/create',formData)
@@ -91,6 +77,47 @@ export const actions = {
     })
     commit('setTasksByTag', res)
     this.$router.push('/tags/' + newTag.id)
+  },
+
+  async updateTagAction({ commit }, formData) {
+    await this.$axios
+      .$post('api/tag/update/' + formData.id, formData)
+      .catch((err) => {
+        console.log(err)
+    })
+    const res = await this.$axios
+      .$get('api/tags/' + formData.path )
+      .catch((err) => {
+        console.log(err)
+    })
+    commit('setTasksByTag', res)
+    this.$router.push('/tags/' + formData.id)
+  },
+
+  async deleteTag({ commit }, formData) {
+    await this.$axios
+      .$post('api/tag/tagDelete/' + formData.id)
+      .catch((err) => {
+        console.log(err)
+    })
+    this.$router.push('/tags/all')
+  },
+
+// タスク関連
+  async getTasksByTag({ commit }, tag_id) {
+    const res = await this.$axios
+      .$get('api/tags/' + tag_id)
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('setTasksByTag', res)
+    // 未終了のカウント
+    const resCount = await this.$axios
+      .$get('api/task/countUnfinished')
+      .catch((err) => {
+        console.log(err)
+      })
+    commit('countUnfinished', resCount)
   },
 
   async addTask({ commit }, formData){
@@ -178,7 +205,7 @@ export const actions = {
   },
 
 
-  
+// グラフ関連
   async getBarChart({ commit }, ) {
     const res = await this.$axios
       .$get('api/chart/bar')

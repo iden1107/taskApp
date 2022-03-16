@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <!-- ドロワー -->
     <v-navigation-drawer
       v-model="drawer"
       clipped
@@ -22,28 +23,32 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+
+    <!-- ヘッダー -->
     <v-app-bar
       clipped-left
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none"/>
-      <v-toolbar-title to="/">
-        <v-toolbar-items>
-          <nuxt-link to="/" class="text-decoration-none black--text font-weight-bold text-md-h5">タスクアプリ</nuxt-link>
-        </v-toolbar-items>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <LoginToolbar v-if="existUser" />
-      <LogoutToolbar v-else :auth-user="authUser" />
-
-    </v-app-bar>
-    <v-main>
-      <v-container>
-        <Nuxt />
+      <v-container class="d-flex">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none"/>
+        <v-toolbar-title to="/" class="d-flex align-center">
+          <v-toolbar-items>
+            <nuxt-link to="/" class="text-decoration-none black--text font-weight-bold text-md-h5 d-block" >タスクアプリ</nuxt-link>
+          </v-toolbar-items>
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+        <LoginToolbar v-if="existUser" />
+        <LogoutToolbar v-else :auth-user="authUser" />
       </v-container>
+    </v-app-bar>
+
+    <!-- メイン -->
+    <v-main>
+      <Nuxt />
     </v-main>
 
+    <!-- フッター -->
     <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -51,7 +56,6 @@
 </template>
 
 <style>
-
 
 </style>
 
