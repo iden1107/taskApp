@@ -132,10 +132,8 @@
                   @change="toggle(task)"
                 ></v-checkbox>
               </td>
-              <td @click="openEditDialog(task)">{{ task.title }}</td>
-              <td @click="openEditDialog(task)" :class="judgeUnfinished(task)">
-                {{ task.deadline_date }}
-              </td>
+              <td @click="openEditDialog(task)" :class="judgeUnfinished(task)">{{ task.title }}</td>
+              <td @click="openEditDialog(task)" :class="judgeUnfinished(task)">{{ task.deadline_date }}</td>
               <td class="pa-0">
                 <v-btn
                   text
