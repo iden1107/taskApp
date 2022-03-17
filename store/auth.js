@@ -16,7 +16,7 @@ export const actions = {
   async login({ commit }, { email, password }) {
     await this.$axios.get('/sanctum/csrf-cookie' ).then(async (res) => {
       const response = await this.$axios
-        .$post('api/login', { email, password })
+        .$post('login', { email, password })
         .catch((err) => {
           console.log(err)
         })
@@ -25,7 +25,7 @@ export const actions = {
   },
   async logout({ commit }) {
     await this.$axios
-      .$post('api/logout',)
+      .$post('logout',)
       .catch((err) => {
         console.log(err)
       })
@@ -34,7 +34,7 @@ export const actions = {
   async register({ commit }, { name, email, password }) {
     await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {
       await this.$axios
-        .$post('api/register', { name, email, password })
+        .$post('register', { name, email, password })
         .catch((err) => {
           console.log(err)
         })

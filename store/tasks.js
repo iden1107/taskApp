@@ -110,11 +110,6 @@ export const actions = {
       .catch((err) => {
         console.log(err)
       })
-      //
-      //
-      //
-      console.log(res)
-      // 
     commit('setTasksByTag', res)
     // 未終了のカウント
     const resCount = await this.$axios
