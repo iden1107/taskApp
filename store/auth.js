@@ -22,6 +22,7 @@ export const actions = {
         })
       commit('setAuthUser', response)
     })
+    console.log('login成功')
   },
   async logout({ commit }) {
     await this.$axios
@@ -30,6 +31,7 @@ export const actions = {
         console.log(err)
       })
     commit('setAuthUser', null)
+    console.log('logout成功')
   },
   async register({ commit }, { name, email, password }) {
     await this.$axios.get('/sanctum/csrf-cookie').then(async (res) => {

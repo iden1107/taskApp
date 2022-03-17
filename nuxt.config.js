@@ -50,8 +50,8 @@ export default {
     'nuxt-client-init-module'
   ],
   axios: {
-    // baseURL: 'http://localhost:8000/',
-    baseURL: 'https://backend.hajime-kamino.com/',
+    baseURL: 'http://localhost:8000/',
+    // baseURL: 'https://backend.hajime-kamino.com/',
     credentials: true,
   },
 
