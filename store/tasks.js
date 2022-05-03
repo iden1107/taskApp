@@ -97,6 +97,7 @@ export const actions = {
   async deleteTag({ commit }, formData) {
     await this.$axios
       .$post('api/tag/tagDelete/' + formData.id)
+      .then((res)=>console.log(res))
       .catch((err) => {
         console.log(err)
     })
